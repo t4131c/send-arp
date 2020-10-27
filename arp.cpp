@@ -5,21 +5,21 @@ void send_arp(pcap_t* handle, Mac eth_dmac, Mac eth_smac, ArpHdr::Operation todo
 	EthArpPacket packet;
 
 	packet.eth_.dmac_ = eth_dmac;
-	packet.eth_.smac_ = eth_smac;//Mac("00:0c:29:54:cc:23");
+	packet.eth_.smac_ = eth_smac;
 	packet.eth_.type_ = htons(EthHdr::Arp);
 	packet.arp_.hrd_ = htons(ArpHdr::ETHER);
 	packet.arp_.pro_ = htons(EthHdr::Ip4);
 	packet.arp_.hln_ = Mac::SIZE;
 	packet.arp_.pln_ = Ip::SIZE;
 	packet.arp_.op_ = htons(todo);
-	packet.arp_.smac_ = arp_smac;//Mac("00:0c:29:54:cc:23");
+	packet.arp_.smac_ = arp_smac;
 	packet.arp_.sip_ = htonl(arp_sip);
 	packet.arp_.tmac_ = arp_tmac;
 	packet.arp_.tip_ = htonl(arp_tip);
 
 	int res = pcap_sendpacket(handle, reinterpret_cast<const u_char*>(&packet), sizeof(EthArpPacket));
 	if (res != 0) {
-		fprintf(stderr, "pcap_sendpacket return %d error=%s\n", res, pcap_geterr(handle));
+		printf("pcap_sendpacket error=%s\n", pcap_geterr(handle));
 	}
 }
 
